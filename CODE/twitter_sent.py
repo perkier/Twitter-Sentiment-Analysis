@@ -404,24 +404,17 @@ class Data_Pre_Processing(object):
         # print(df_train[:,'text'].tolist())
         # quit()
 
-        vocab_size = len(self.tokenizer.word_index) + 1
+        self.vocab_size = len(self.tokenizer.word_index) + 1
         print("Total words", vocab_size)
 
         # x_train = pad_sequences(self.tokenizer.texts_to_sequences(df_train[:,'text']), maxlen=SEQUENCE_LENGTH)
         # x_test = pad_sequences(self.tokenizer.texts_to_sequences(df_test[:,'text']), maxlen=SEQUENCE_LENGTH)
 
-        train_seq = self.tokenizer.texts_to_sequences(df_train.loc[:,'text'].tolist())
-        test_seq = self.tokenizer.texts_to_sequences(df_test.loc[:,'text'].tolist())
-
-        # print(train_seq)
-        # print(test_seq)
-        #
-        # quit()
+        train_seq = self.tokenizer.texts_to_sequences(df_train.loc[:,'text'].astype(str).tolist())
+        test_seq = self.tokenizer.texts_to_sequences(df_test.loc[:,'text'].astype(str).tolist())
 
         x_train = pad_sequences(train_seq)
         x_test = pad_sequences(test_seq)
-
-
 
         self.orig_train = df_train
         self.orig_test = df_test
@@ -437,7 +430,7 @@ class Data_Pre_Processing(object):
         try:
 
             labels = self.tok_train.target.unique().tolist()
-            labels.append(NEUTRAL)
+            labels.append("NEUTRAL")
 
             encoder = LabelEncoder()
             encoder.fit(self.tok_train.target.tolist())
@@ -447,7 +440,7 @@ class Data_Pre_Processing(object):
 
         except:
             labels = self.orig_train.target.unique().tolist()
-            labels.append(NEUTRAL)
+            labels.append("NEUTRAL")
 
             encoder = LabelEncoder()
             encoder.fit(self.orig_train.target.tolist())
@@ -586,29 +579,25 @@ def tokenize_and_encode(df_train, df_test):
 
 def main():
 
-    data_path = find_path()
+    # data_path = find_path()
+    #
+    # data_set = csv_func(data_path, 'twitter_data')
+    #
+    # data_set.columns = ["target", "ids", "date", "flag", "user", "text"]
+    #
+    # data_set['target_qualit'] = data_set.target.apply(lambda x: decode_sentiment(x))
+    #
+    # data_cleaner = Clean_Data(data_set)
+    # data_cleaner.remove_characters()
+    # data_cleaner.memory_total_reduction()
+    #
+    # data_set = data_cleaner.df
+    #
+    # data_set = data_set
+    #
+    # pickle.dump(data_set, open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\pickle_rick.p", "wb"))
 
-    data_set = csv_func(data_path, 'twitter_data')
-
-    data_set.columns = ["target", "ids", "date", "flag", "user", "text"]
-
-    data_set['target_qualit'] = data_set.target.apply(lambda x: decode_sentiment(x))
-
-    data_cleaner = Clean_Data(data_set)
-    data_cleaner.remove_characters()
-    data_cleaner.memory_total_reduction()
-
-    data_set = data_cleaner.df
-
-    data_set = data_set
-
-    pickle.dump(data_set, open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\pickle_rick.p", "wb"))
-
-    # data_set = pickle.load( open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\pickle_rick.p", "rb" ) )
-
-    print(data_set[pd.isnull(data_set['text'])].index.tolist())
-
-    quit()
+    data_set = pickle.load( open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\pickle_rick.p", "rb" ) )
 
     pre_proc = Data_Pre_Processing(data_set)
 
@@ -643,21 +632,19 @@ def main():
     x_valid, x_test = pre_proc.tokenize_text(df_train=df_train, df_test=df_valid)
     y_train, y_valid = pre_proc.label_encoding()
 
-    quit()
-
     # x_valid, x_test, y_valid, y_test = tokenize_and_encode(df_train, df_valid)
-
-    print('Consegui')
-    quit()
 
     embedding_layer = pre_proc.emb_layer()
 
     pickle.dump(embedding_layer, open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\emb.p", "wb"))
 
-    # data_set = pickle.load(open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\pickle_rick.p", "rb"))
+    print('Consegui')
+    quit()
 
-    # x_train = pad_sequences(tokenizer.texts_to_sequences(df_train.text), maxlen=SEQUENCE_LENGTH)
-    # x_test = pad_sequences(tokenizer.texts_to_sequences(df_test.text), maxlen=SEQUENCE_LENGTH)
+
+
+
+    quit()
 
 
 
