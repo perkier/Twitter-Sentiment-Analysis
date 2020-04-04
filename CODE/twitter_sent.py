@@ -621,13 +621,7 @@ def main():
     df_valid = s.strat_valid_set.reset_index(drop=True)
     df_test = s.strat_test_set.reset_index(drop=True)
 
-    # pre_proc.word2vector(df_train)
-
-    # documents = [_text.split() for _text in df_train.text]
-
-    # WORD2VEC_MODEL = "model.w2v"
-    #
-    # model = Word2Vec.load(WORD2VEC_MODEL)
+    pre_proc.word2vector(df_train)
 
     x_valid, x_test = pre_proc.tokenize_text(df_train=df_train, df_test=df_valid)
     y_train, y_valid = pre_proc.label_encoding()
@@ -636,7 +630,7 @@ def main():
 
     embedding_layer = pre_proc.emb_layer()
 
-    pickle.dump(embedding_layer, open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\emb.p", "wb"))
+    # pickle.dump(embedding_layer, open("C:\\Users\\diogo\\Desktop\\perkier tech\\Energy\\CODE\\emb.p", "wb"))
 
     print('Consegui')
     quit()
