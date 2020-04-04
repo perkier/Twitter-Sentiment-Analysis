@@ -405,7 +405,7 @@ class Data_Pre_Processing(object):
         # quit()
 
         self.vocab_size = len(self.tokenizer.word_index) + 1
-        print("Total words", vocab_size)
+        print("Total words", self.vocab_size)
 
         # x_train = pad_sequences(self.tokenizer.texts_to_sequences(df_train[:,'text']), maxlen=SEQUENCE_LENGTH)
         # x_test = pad_sequences(self.tokenizer.texts_to_sequences(df_test[:,'text']), maxlen=SEQUENCE_LENGTH)
